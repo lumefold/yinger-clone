@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Max Yinger ☞ UI Engineer",
+  title: "Abdyu ☞ Software Engineer",
   description: "Realtime 3D ° Interaction ° Perf",
   icons: {
     icon: "https://ext.same-assets.com/2592637995/1004217203.ico"
