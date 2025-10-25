@@ -71,7 +71,7 @@ export default function Home() {
         {/* Logo */}
         <div className="absolute top-4 sm:top-16 left-0">
           <h1 className="font-heading text-[3rem] sm:text-[4rem] leading-none tracking-tighter text-primary">
-            YINGER
+            ABDYU
           </h1>
         </div>
 
@@ -102,14 +102,14 @@ export default function Home() {
 
               {/* Main Heading */}
               <h1 className="inline font-body text-2 leading-relaxed">
-                <span className="sr-only">Max Yinger is a</span>UI Engineer who{' '}
+                <span className="sr-only">Abdyu Bedada is a</span>Software Engineer who{' '}
                 <a
-                  href="https://www.youtube.com/watch?v=CZa2lY9CFyM"
+                  href="https://youtu.be/8GW6sLrK40k?si=1AuBZvlAbpbJbusv"
                   target="_blank"
                   rel="noreferrer"
                   className="link-animated rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-50"
                 >
-                  dips his toes
+                  resonance
                 </a>{' '}
                 in Realtime 3D ° Interaction ° Perf{' '}
                 <span className="inline-block text-right font-body-digit text-secondary text-n1 select-none whitespace-nowrap" suppressHydrationWarning>
@@ -138,12 +138,12 @@ export default function Home() {
               <br />
               Design Engineer{' '}
               <a
-                href="https://hex.tech/"
+                href="https://dev.to/lumefold/"
                 target="_blank"
                 rel="noreferrer"
                 className="link-animated rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-50"
               >
-                <span className="opacity-100">@Hex</span>
+                <span className="opacity-100">@Lume</span>
               </a>
             </p>
 
@@ -151,10 +151,10 @@ export default function Home() {
             <h2 className="sr-only">Social Links:</h2>
             <ul className="flex gap-1 sm:gap-2 justify-stretch sm:justify-start mt-4 sm:mt-0 sm:absolute sm:right-0 sm:bottom-0 sm:flex-col sm:items-end sm:gap-2 -translate-x-[3px] sm:translate-x-0">
               {[
-                { label: 'Github', shortLabel: 'Gh', href: 'https://github.com/maxyinger', delay: 0 },
-                { label: 'LinkedIn', shortLabel: 'Li', href: 'https://www.linkedin.com/in/max-yinger-605833a6/', delay: 1 },
-                { label: 'Twitter / 𝕏', shortLabel: '𝕏', href: 'https://twitter.com/maxyinger', delay: 2 },
-                { label: 'Email', shortLabel: 'Email', href: 'mailto:hi@yinger.dev', delay: 3 }
+                { label: 'Github', shortLabel: 'Gh', href: 'https://github.com/Lumefold', delay: 0 },
+                { label: 'LinkedIn', shortLabel: 'Li', href: 'https://www.linkedin.com/in/Lumefold/', delay: 1 },
+                { label: 'Twitter / 𝕏', shortLabel: '𝕏', href: 'https://twitter.com/Lumefold', delay: 2 },
+                { label: 'Email', shortLabel: 'Email', href: 'mailto:hello@Lumefold.com', delay: 3 }
               ].map((link, i) => (
                 <li
                   key={link.label}
