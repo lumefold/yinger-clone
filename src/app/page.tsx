@@ -127,7 +127,7 @@ export default function Home() {
               <span className="opacity-100">
                 →{' '}
                 <a
-                  href="https://www.youtube.com/watch?v=HS2Ahm2EpL0"
+                  href="https://youtu.be/pQsF3pzOc54?si=-Fi0VBNWRFMblNeR"
                   target="_blank"
                   rel="noreferrer"
                   className="link-animated rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-50"
