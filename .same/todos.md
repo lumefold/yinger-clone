@@ -1,15 +1,18 @@
 # Todos
 
 ## Animation Improvements
-- [ ] Add smooth border transitions for social link buttons (dashed → solid)
-- [ ] Implement link underline animations
-- [ ] Add hover scale/transform effects
-- [ ] Improve button backdrop blur and color transitions
-- [ ] Add staggered animations for social links entrance
-- [ ] Refine loading bar animations
+- [x] Add smooth border transitions for social link buttons (dashed → solid)
+- [x] Implement link underline animations
+- [x] Add hover scale/transform effects
+- [x] Improve button backdrop blur and color transitions
+- [x] Add staggered animations for social links entrance
+- [x] Refine loading bar animations
 
 ## GitHub Integration
-- [ ] Initialize git repository if needed
-- [ ] Commit all changes
-- [ ] Create/connect to GitHub repository
-- [ ] Push code to GitHub
+- [x] Initialize git repository if needed
+- [x] Commit all changes
+- [x] Create/connect to GitHub repository
+- [x] Push code to GitHub
+
+## Completed! ✨
+Repository: https://github.com/lumefold/yinger-clone

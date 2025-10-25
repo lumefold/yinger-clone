@@ -198,6 +198,29 @@
     }
   }
 
+  @keyframes circleFill {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes digitFlip {
+    0% {
+      transform: rotateX(0deg);
+    }
+    50% {
+      transform: rotateX(90deg);
+    }
+    100% {
+      transform: rotateX(0deg);
+    }
+  }
+
   /* Smooth transitions for all interactive elements */
   a, button {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

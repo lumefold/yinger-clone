@@ -78,25 +78,31 @@ export default function Home() {
         <div className="relative h-full w-full">
           {/* Main Content */}
           <div className="fadein absolute w-full bottom-0">
-            <div className="text-2 max-w-[25ch] sm:max-w-[25ch]">
+            <div className="text-2 max-w-[25ch] sm:max-w-[30ch]">
               {/* Time Display */}
               <p className="sr-only" suppressHydrationWarning>Local time in Fort Collins Colorado is {formattedTime} {ampm} (UTC-6:00)</p>
-              <div className="text-n1 text-secondary font-body-digit uppercase mb-2">
+              <div className="text-n1 text-secondary font-body-digit uppercase mb-3">
                 LOCAL TIME (UTC-6:00)
               </div>
-              <div className="flex items-start gap-4 mb-4">
-                <div className="font-body-digit text-[4rem] sm:text-[5rem] leading-none" suppressHydrationWarning>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="font-body-digit text-[5rem] sm:text-[6.5rem] leading-none tracking-tight font-bold" suppressHydrationWarning>
                   {formattedTime}
                 </div>
-                <div className="flex flex-col text-n1 font-body-digit mt-2" suppressHydrationWarning>
-                  <span className={hours >= 12 ? 'opacity-40' : 'opacity-100'}>am</span>
-                  <span className={hours >= 12 ? 'opacity-100' : 'opacity-40'}>pm</span>
+                <div className="flex flex-col gap-1.5 mt-1" suppressHydrationWarning>
+                  <div className="flex items-center gap-1.5">
+                    <div className={`w-3 h-3 rounded-full border-2 transition-all ${hours < 12 ? 'bg-primary border-primary' : 'border-primary border-opacity-30 bg-transparent'}`} />
+                    <span className="text-n1 font-body-digit">am</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className={`w-3 h-3 rounded-full border-2 transition-all ${hours >= 12 ? 'bg-primary border-primary' : 'border-primary border-opacity-30 bg-transparent'}`} />
+                    <span className="text-n1 font-body-digit">pm</span>
+                  </div>
                 </div>
               </div>
 
               {/* Main Heading */}
-              <h1 className="inline font-body text-2">
-                <span className="sr-only">Max Yinger is a</span> UI Engineer who{' '}
+              <h1 className="inline font-body text-2 leading-relaxed">
+                <span className="sr-only">Max Yinger is a</span>UI Engineer who{' '}
                 <a
                   href="https://www.youtube.com/watch?v=CZa2lY9CFyM"
                   target="_blank"
@@ -106,11 +112,9 @@ export default function Home() {
                   dips his toes
                 </a>{' '}
                 in Realtime 3D ° Interaction ° Perf{' '}
-                <span className="inline-block text-right font-body-digit text-secondary text-n1 select-none" suppressHydrationWarning>
-                  <span className="sr-only">page dimensions are {dimensions.width} pixels wide by {dimensions.height} pixels high</span>
+                <span className="inline-block text-right font-body-digit text-secondary text-n1 select-none whitespace-nowrap" suppressHydrationWarning>
                   {String(dimensions.width).padStart(4, '0')} x {String(dimensions.height).padStart(4, '0')}{' '}
-                  <span className="sr-only">Page is currently running at {String(fps).padStart(3, '0')} frames per second</span>
-                  {(fps / 1000).toFixed(3)} FPS
+                  L.{String(fps).padStart(3, '0')} FPS
                 </span>
               </h1>
             </div>
