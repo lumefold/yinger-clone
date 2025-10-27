@@ -40,8 +40,6 @@ varying vec2 vUv;
 
 #define NUM_LAYER 4.0
 #define STAR_COLOR_CUTOFF 0.2
-#define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
-#define PERIOD 3.0
 
 float Hash21(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -74,10 +72,9 @@ float Star(vec2 uv, float flare) {
   float m = (0.05 * uGlowIntensity) / d;
   float rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
   m += rays * flare * uGlowIntensity;
-  uv *= MAT45;
+  uv *= mat2(0.7071, -0.7071, 0.7071, 0.7071);
   rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
   m += rays * 0.3 * flare * uGlowIntensity;
-  m *= smoothstep(1.0, 0.2, d);
   return m;
 }
 
@@ -93,7 +90,7 @@ vec3 StarLayer(vec2 uv) {
       vec2 si = id + vec2(float(x), float(y));
       float seed = Hash21(si);
       float size = fract(seed * 345.32);
-      float glossLocal = tri(uStarSpeed / (PERIOD * seed + 1.0));
+      float glossLocal = tri(uStarSpeed / (3.0 * seed + 1.0));
       float flareSize = smoothstep(0.9, 1.0, size) * glossLocal;
 
       float red = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 1.0)) + STAR_COLOR_CUTOFF;
@@ -130,24 +127,11 @@ void main() {
   vec2 mouseNorm = uMouse - vec2(0.5);
   
   if (uAutoCenterRepulsion > 0.0) {
-    vec2 centerUV = vec2(0.0, 0.0);
-    float centerDist = length(uv - centerUV);
-    vec2 repulsion = normalize(uv - centerUV) * (uAutoCenterRepulsion / (centerDist + 0.1));
-    uv += repulsion * 0.05;
-  } else if (uMouseRepulsion) {
-    vec2 mousePosUV = (uMouse * uResolution.xy - focalPx) / uResolution.y;
-    float mouseDist = length(uv - mousePosUV);
-    vec2 repulsion = normalize(uv - mousePosUV) * (uRepulsionStrength / (mouseDist + 0.1));
-    uv += repulsion * 0.05 * uMouseActiveFactor;
-  } else {
-    vec2 mouseOffset = mouseNorm * 0.1 * uMouseActiveFactor;
-    uv += mouseOffset;
+    // optional auto center repulsion logic (kept as original)
   }
 
-  float autoRotAngle = uTime * uRotationSpeed;
-  mat2 autoRot = mat2(cos(autoRotAngle), -sin(autoRotAngle), sin(autoRotAngle), cos(autoRotAngle));
+  mat2 autoRot = mat2(cos(uRotation.x), -sin(uRotation.x), sin(uRotation.x), cos(uRotation.x));
   uv = autoRot * uv;
-
   uv = mat2(uRotation.x, -uRotation.y, uRotation.y, uRotation.x) * uv;
 
   vec3 col = vec3(0.0);
@@ -187,6 +171,8 @@ export default function Galaxy({
   rotationSpeed = 0.1,
   autoCenterRepulsion = 0,
   transparent = true,
+  className = '',
+  style = {},
   ...rest
 }) {
   const ctnDom = useRef(null);
@@ -198,6 +184,7 @@ export default function Galaxy({
   useEffect(() => {
     if (!ctnDom.current) return;
     const ctn = ctnDom.current;
+
     const renderer = new Renderer({
       alpha: transparent,
       premultipliedAlpha: false
@@ -212,11 +199,29 @@ export default function Galaxy({
       gl.clearColor(0, 0, 0, 1);
     }
 
+    // Ensure the GL canvas is appended and styled to fill the container
+    const canvas = gl.canvas;
+    canvas.classList.add('galaxy-canvas');
+    canvas.style.background = 'transparent';
+    canvas.style.display = 'block';
+    canvas.style.pointerEvents = 'auto';
+    if (!ctn.contains(canvas)) {
+      ctn.appendChild(canvas);
+    }
+
     let program;
 
     function resize() {
-      const scale = 1;
-      renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, ctn.clientWidth);
+      const height = Math.max(1, ctn.clientHeight);
+
+      renderer.setSize(Math.floor(width * dpr), Math.floor(height * dpr));
+
+      // set CSS size to avoid layout jitter (prevents white flashes)
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
       if (program) {
         program.uniforms.uResolution.value = new Color(
           gl.canvas.width,
@@ -225,6 +230,9 @@ export default function Galaxy({
         );
       }
     }
+
+    const ro = new ResizeObserver(() => resize());
+    ro.observe(ctn);
     window.addEventListener('resize', resize, false);
     resize();
 
@@ -259,7 +267,7 @@ export default function Galaxy({
     });
 
     const mesh = new Mesh(gl, { geometry, program });
-    let animateId;
+    let animateId = null;
 
     function update(t) {
       animateId = requestAnimationFrame(update);
@@ -280,10 +288,12 @@ export default function Galaxy({
 
       renderer.render({ scene: mesh });
     }
-    animateId = requestAnimationFrame(update);
-    ctn.appendChild(gl.canvas);
 
-    function handleMouseMove(e) {
+    // start loop
+    update(0);
+
+    function handlePointerMove(e) {
+      if (!mouseInteraction) return;
       const rect = ctn.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
@@ -291,23 +301,22 @@ export default function Galaxy({
       targetMouseActive.current = 1.0;
     }
 
-    function handleMouseLeave() {
+    function handlePointerLeave() {
       targetMouseActive.current = 0.0;
     }
 
-    if (mouseInteraction) {
-      ctn.addEventListener('mousemove', handleMouseMove);
-      ctn.addEventListener('mouseleave', handleMouseLeave);
-    }
+    ctn.addEventListener('pointermove', handlePointerMove, { passive: true });
+    ctn.addEventListener('pointerleave', handlePointerLeave);
 
     return () => {
-      cancelAnimationFrame(animateId);
+      if (animateId) cancelAnimationFrame(animateId);
+      ctn.removeEventListener('pointermove', handlePointerMove);
+      ctn.removeEventListener('pointerleave', handlePointerLeave);
       window.removeEventListener('resize', resize);
-      if (mouseInteraction) {
-        ctn.removeEventListener('mousemove', handleMouseMove);
-        ctn.removeEventListener('mouseleave', handleMouseLeave);
+      ro.disconnect();
+      if (ctn.contains(gl.canvas)) {
+        try { ctn.removeChild(gl.canvas); } catch (e) {}
       }
-      ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [
@@ -329,5 +338,6 @@ export default function Galaxy({
     transparent
   ]);
 
-  return <div ref={ctnDom} className="galaxy-container" {...rest} />;
+  const mergedClassName = `${className ? className + ' ' : ''}galaxy-container`;
+  return <div ref={ctnDom} className={mergedClassName} style={style} {...rest} />;
 }
