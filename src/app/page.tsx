@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Galaxy from '@/components/Galaxy';
 
 export default function Home() {
   const [time, setTime] = useState(new Date());
