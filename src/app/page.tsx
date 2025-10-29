@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Galaxy from '@/components/Galaxy';
+import Dither from '@/components/Dither';
 
 export default function Home() {
   const [time, setTime] = useState(new Date());
@@ -68,15 +68,15 @@ export default function Home() {
 
   return (
     <main className="overflow-hidden">
-      <Galaxy
-        mouseRepulsion={true}
-        mouseInteraction={true}
-        density={1.5}
-        glowIntensity={0.5}
-        saturation={0.8}
-        hueShift={240}
-        className="fixed inset-0 z-0"
-        style={{ width: '100%', height: '100vh' }}
+      <Dither
+        waveColor={[0.5, 0.5, 0.5]}
+        disableAnimation={false}
+        enableMouseInteraction={true}
+        mouseRadius={0.3}
+        colorNum={4}
+        waveAmplitude={0.3}
+        waveFrequency={3}
+        waveSpeed={0.05}
       />
       <div className="h-dvh py-4 sm:py-16 w-11/12 m-auto relative z-10 animate-z">
         {/* Logo */}
