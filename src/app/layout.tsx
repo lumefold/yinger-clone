@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Dither from "@/components/dither/Dither";
 
 export const metadata: Metadata = {
   title: "Abdyu ☞ Software Engineer",
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className="font-body antialiased h-full w-full box-border">
+        <Dither waveColor={[0.5, 0.5, 0.5]} disableAnimation={false} enableMouseInteraction={true} mouseRadius={0.3} colorNum={4} waveAmplitude={0.3} waveFrequency={3} waveSpeed={0.05} />
         {children}
       </body>
     </html>

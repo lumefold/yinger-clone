@@ -71,7 +71,7 @@ export default function Home() {
         {/* Logo */}
         <div className="absolute top-4 sm:top-16 left-0">
           <h1 className="font-heading text-[3rem] sm:text-[4rem] leading-none tracking-tighter text-primary">
-            ABDYU
+            A B D Y U
           </h1>
         </div>
 
@@ -127,7 +127,7 @@ export default function Home() {
               <span className="opacity-100">
                 →{' '}
                 <a
-                  href="https://youtu.be/pQsF3pzOc54?si=-Fi0VBNWRFMblNeR"
+                  href="https://youtu.be/ZGSl0qBifII?si=R-hXtny3fD93PhSm"
                   target="_blank"
                   rel="noreferrer"
                   className="link-animated rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-50"

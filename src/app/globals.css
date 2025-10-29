@@ -226,3 +226,11 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
+/* Dither canvas container */
+.dither-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 0;
+}
