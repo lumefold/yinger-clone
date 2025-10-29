@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Dither from '@/components/Dither';
+import dynamic from 'next/dynamic';
+
+const Dither = dynamic(() => import('@/components/Dither'), {
+  ssr: false,
+  loading: () => <div className="fixed inset-0 bg-black z-0" />,
+});
 
 export default function Home() {
   const [time, setTime] = useState(new Date());
