@@ -1,5 +1,6 @@
 'use client';
 
+import Dither from '@/components/Dither/Dither';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
@@ -67,6 +68,9 @@ export default function Home() {
 
   return (
     <main className="overflow-hidden">
+      <div className="absolute inset-0 w-full h-full">
+        <Dither />
+      </div>
       <div className="h-dvh py-4 sm:py-16 w-11/12 m-auto relative z-10 animate-z">
         {/* Logo */}
         <div className="absolute top-4 sm:top-16 left-0">
