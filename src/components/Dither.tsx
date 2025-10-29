@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unknown-property */
-import { useRef, useEffect, forwardRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree, ThreeEvent } from '@react-three/fiber';
 import { EffectComposer, wrapEffect } from '@react-three/postprocessing';
 import { Effect } from 'postprocessing';
@@ -137,36 +136,17 @@ outputColor = color;
 `;
 
 class RetroEffectImpl extends Effect {
-public uniforms: Map<string, THREE.Uniform>;
-constructor() {
-const uniforms = new Map<string, THREE.Uniform>([
-['colorNum', new THREE.Uniform(4.0)],
-['pixelSize', new THREE.Uniform(2.0)]
-]);
-super('RetroEffect', ditherFragmentShader, { uniforms });
-this.uniforms = uniforms;
-}
-set colorNum(value: number) {
-this.uniforms.get('colorNum')!.value = value;
-}
-get colorNum(): number {
-return this.uniforms.get('colorNum')!.value;
-}
-set pixelSize(value: number) {
-this.uniforms.get('pixelSize')!.value = value;
-}
-get pixelSize(): number {
-return this.uniforms.get('pixelSize')!.value;
-}
+  constructor({ colorNum = 4, pixelSize = 2 }: { colorNum?: number; pixelSize?: number } = {}) {
+    super('RetroEffect', ditherFragmentShader, {
+      uniforms: new Map([
+        ['colorNum', new THREE.Uniform(colorNum)],
+        ['pixelSize', new THREE.Uniform(pixelSize)]
+      ])
+    })
+  }
 }
 
-const RetroEffect = forwardRef<RetroEffectImpl, { colorNum: number; pixelSize: number }>((props, ref) => {
-const { colorNum, pixelSize } = props;
-const WrappedRetroEffect = wrapEffect(RetroEffectImpl);
-return <WrappedRetroEffect ref={ref} colorNum={colorNum} pixelSize={pixelSize} />;
-});
-
-RetroEffect.displayName = 'RetroEffect';
+const RetroEffect = wrapEffect(RetroEffectImpl)
 
 interface WaveUniforms {
 [key: string]: THREE.Uniform;
